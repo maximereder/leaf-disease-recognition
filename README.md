@@ -1,7 +1,4 @@
-
 # leaf-disease-recognition
-
-`Project in progress 🚀`
 
 This project aims to study **necrosis** and **pycnidia** on a leaf. It is led by a PHD student in **biology**. My goal is to help him in the processing of his images.
 Following this analysis, we generate a dataset. This dataset will also be the subject of an in-depth study. This project is therefore the first step of his **thesis**.
