@@ -7,25 +7,54 @@ Definitions :
 * Necrosis : Death of tissue through injury or disease, especially in a localized area. Such an area is usually *brown* or *black*.
 * pycnidia : A pycnidia is a type of asexual reproductive structure found in fungi of the order Sphaeropsidales (class Coelomycetes) and lichens whose fungal component belongs to this order. The pycnidia is a spore-like concept of certain imperfect fungi (ascomycetes), usually globose or obpiriform in appearance (in the shape of a bottle or an inverted pear). Inside, very small asexual spores are formed, called conidia or picnospores.
 
-The PHD student sends me the images to be analyzed in TIF form. Currently I use for my algorithm a dataset of **193 scans**. The dataset will be composed of about **800 images** each composed of **4 portions** of leaves.
+The PHD student sends me the images to be analyzed in TIF form. The dataset will be composed of about **1600 images** each composed of **4 portions** of leaves.
 
 Original image : 
 
 ![original](Report/Ber_Bob_2_Bob_2.jpg)
 
 Here is how we proceed our analysis : 
-- We determine all the leaves on the image, which is necessary for our `result.csv` file.  Indeed, we will be able to check if the areas we detect belong to the leaf (see `Optimization`).
-- On each leaf, we detect each `safe zone`, which are healthy areas of the leaf, which will be useful later.
-- Next we determine the areas of necrosis.
-- Then, we detect the pycnidia. The areas calculated previously are very useful, because they allow to **check** if a pycnidia is coherent: if a pycnidia belongs to a `safe zone` then it is a **false pycnidia**.
+- We determine all the leaves on the image (see `Crop`), which is necessary for our `result.csv` file.
+- We analyse all cropped leaves. On each leaf, we detect each `necrosis area`, which are necrotic areas of the leaf. Depending on the leaf, each necrosis may have a different color. To solve this problem, we use different `masks`. (See `Analysis`)
+- Then, we detect the pycnidias. The areas calculated previously are very useful, because they allow to **check** if a pycnidia is coherent: if a pycnidia belongs to a `necrotic area` then it is a **true pycnidia**. (See `Analysis`)
 - Finally, we create `result.csv` which is composed : 
+    * Columns from csv from PHD (columns containing researcher input data)
     * Name,
+    * Leaf area in px and cm,
     * Number of necrosis areas,
-    * Total area of necrosis areas,
+    * Total area of necrosis areas in px and cm,
     * Number of pycnidia,
-    * Total area of pycnidia areas.
+    * Total area of pycnidia areas in px and cm.
 
-At the moment of this analysis, I am using OpenCV in order to detect all areas. 
+## Analysis
+
+, `Scipy`, `Numpy` and `Pandas`. 
+
+Function : `get_image_informations(directory, img, file_name, dpi, save)`
+
+Arguments : 
+- `directory`: main directory of analysis.
+- `img`: TIF file to analyze.
+- `dpi`: Number of pixels created on a one-inch area.
+- `save`: save all images (cropped and analysed). `True`or `False`. 
+
+### Necrosis treatment
+
+Library used: `OpenCV`.
+
+Different `masks` are used to determine all the necroses on a leaf. 
+
+1. Green necrosis:
+2. Green/Gray necrosis
+3. Yellow necrosis
+
+Then, the final `mask` is the assembly of these: 
+
+```mask_merged = mask_yellow_necrosis + mask_green_necrosis + mask_gray_necrosis```
+
+Example : 
+
+
 
 Here are the main stages of image analysis : 
 1. Convert image to HSV format.
