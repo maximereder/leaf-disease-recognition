@@ -54,6 +54,19 @@ Then, the final `mask` is the assembly of these:
 
 Example : 
 
+![original](Report/leaf.jpg)
+
+![Green Mask](Report/mask_green.jpg)
+
+![Yellow Mask](Report/mask_yellow.jpg)
+
+![Gray Mask](Report/mask_gray.jpg)
+
+
+### Pycndias 
+
+Library used: `Scipy`.
+
 
 
 Here are the main stages of image analysis : 
