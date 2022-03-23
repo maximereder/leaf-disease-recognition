@@ -28,8 +28,6 @@ Here is how we proceed our analysis :
 
 ## Analysis
 
-, `Scipy`, `Numpy` and `Pandas`. 
-
 Function : `get_image_informations(directory, img, file_name, dpi, save)`
 
 Arguments : 
@@ -54,20 +52,33 @@ Then, the final `mask` is the assembly of these:
 
 Example : 
 
-![original](Report/leaf.jpg)
+Original
 
-![Green Mask](Report/mask_green.jpg)
+![original](Report/leaf.webp)
 
-![Yellow Mask](Report/mask_yellow.jpg)
+Green mask
 
-![Gray Mask](Report/mask_gray.jpg)
+![Green Mask](Report/mask_green.webp)
 
+Green/Gray mask
+
+![Gray Mask](Report/mask_gray.webp)
+
+Yellow mask
+
+![Yellow Mask](Report/mask_yellow.webp)
+
+Final mask
+
+![Final Mask](Report/mask.webp)
+
+After having assembled all these masks, we apply a threshold of 1000 px minimum to be considered as necrotic area : 
+
+![Final](Report/final.webp)
 
 ### Pycndias 
 
 Library used: `Scipy`.
-
-
 
 Here are the main stages of image analysis : 
 1. Convert image to HSV format.
