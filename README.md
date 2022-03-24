@@ -54,7 +54,7 @@ Example :
 
 Original
 
-![original](Report/leaf.webp)
+![original](Report/original.webp)
 
 Green mask
 
