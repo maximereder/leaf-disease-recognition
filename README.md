@@ -4,10 +4,10 @@ This project aims to study **necrosis** and **pycnidia** on a leaf. It is led by
 Following this analysis, we generate a dataset. This dataset will also be the subject of an in-depth study. This project is therefore the first step of his **thesis**.
 
 Definitions : 
-* Necrosis : Death of tissue through injury or disease, especially in a localized area. Such an area is usually *brown* or *black*.
-* pycnidia : A pycnidia is a type of asexual reproductive structure found in fungi of the order Sphaeropsidales (class Coelomycetes) and lichens whose fungal component belongs to this order. The pycnidia is a spore-like concept of certain imperfect fungi (ascomycetes), usually globose or obpiriform in appearance (in the shape of a bottle or an inverted pear). Inside, very small asexual spores are formed, called conidia or picnospores.
+* **Necrosis** : Death of tissue through injury or disease, especially in a localized area. Such an area is usually *brown* or *black*.
+* **Pycnidia** : A pycnidia is a type of **asexual reproductive structure** found in fungi of the order *Sphaeropsidales* (class *Coelomycetes*) and *lichens* whose fungal component belongs to this order. The pycnidia is a spore-like concept of certain imperfect fungi (ascomycetes), usually globose or obpiriform in appearance (in the shape of a bottle or an inverted pear). Inside, very small asexual spores are formed, called *conidia* or *pycnidias*.
 
-The PHD student sends me the images to be analyzed in TIF form. The dataset will be composed of about **1600 images** each composed of **4 portions** of leaves.
+The dataset is composed about **1600 images** and each leaf is composed of **4 portions** of leaves.
 
 Original image : 
 
@@ -42,7 +42,7 @@ Library used: `OpenCV`.
 
 Different `masks` are used to determine all the necroses on a leaf. 
 
-1. Green necrosis:
+1. Green necrosis
 2. Green/Gray necrosis
 3. Yellow necrosis
 
@@ -72,31 +72,44 @@ Final mask
 
 ![Final Mask](Report/mask.webp)
 
-After having assembled all these masks, we apply a threshold of 1000 px minimum to be considered as necrotic area : 
+After having assembled all these masks, we apply these rules :
+```py
+for necrosis in leaf:
+  if necrosis area > 1000px:
+      ratio = round(perimeter/area, 3)
+      # Removing necroses with a marginal shape such as very elongated necroses
+      if ratio < 0.25:
+        # drawing necrosis
+        i+=1
+        necrosis_nb += 1
+        necrosis_area += area
+```
 
 ![Final](Report/final.webp)
 
-### Pycndias 
+### Pycnidias 
 
 Library used: `Scipy`.
 
-Here are the main stages of image analysis : 
-1. Convert image to HSV format.
-2. Detect leaf contours : 
-  * range  : *[0, 35, 65]* to *[255, 255, 255]*.
-  *  area > 50000px
-4. Detect safe area : 
-  * range : *[40, 60, 30]* to *[170, 255, 255]*.
-  * area > 1000px
-6. Detect necrosis area : 
-  * range : *[10, 100, 100]* to *[18, 255, 255]*.
-  * area > 300px
-8. Detect pycnidias : 
-  * range : *[0, 0, 0]* to *[72, 99, 139]*.
-  * area < 100px
+One of our problematic is to detect leaf pycnidias which are technically small black dots. However, colors of *small black spores* are differents according to leaf background. We can't solve this just by color. 
 
-Optimizations : 
-- Hierarchy : The image processing generates a lot of contours. For example, for a single image could generate 4562 *safe zones*, which greatly increases the computational burden. To remedy this, the `findContours()` function returns the contours along with their `hierarchy`.  This function is very useful because we get the `parents` and `children` of each `contour`. So, to take the example of *safe zones*, it is useless to consider a `safe zone` which is already in one of them.
-- Area : Many outlines are insignificant in size, so it is useful to remove them. To do this, OpenCV provides `contourArea()`, which returns an area. So we can remove inconsistent areas, for example a `pycnidia` that is too big.
-- We obtain the pycnidia with the help of `range` of HSV color. 
-However, it happens that some "false pycnidia" are detected in very healthy areas. Indeed, some dark green pixels enter the detection range. At the moment, we use the function `pointPolygonTest()` which checks if a point belongs to a contour. We can therefore remove the *false pycnids* that belong to **very green areas** = *safe zones*.
+The common point between these spors is the **shape**. They can be assimilated to *small circles*.
+
+That's why, we use **convolution kernel**.
+
+![Convolution](Report/convolution.gif)
+
+Example : 
+
+![Without pycnidias](Report/without_pycnidias_drawn.webp)
+
+After detecting the suspected pycnidia, we sort them according to some rules : 
+```py
+for pycnidias in leaf:
+  if pycnidia is in necresis area and pycnidia color belongs to autorized color:
+      # drawing pycnidia
+      pycnidia_area += area
+      pycnidia_number += 1
+```
+
+![With pycnidias](Report/pycnidias_drawn.webp)
