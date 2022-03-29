@@ -3,9 +3,16 @@
 This project aims to study **necrosis** and **pycnidia** on a leaf. It is led by a PHD student in **biology**. My goal is to help him in the processing of his images.
 Following this analysis, we generate a dataset. This dataset will also be the subject of an in-depth study. This project is therefore the first step of his **thesis**.
 
+![With pycnidias](Report/pycnidias_drawn.webp)
+
 Definitions : 
 * **Necrosis** : Death of tissue through injury or disease, especially in a localized area. Such an area is usually *brown* or *black*.
+
+![hand pycnidias](Report/hand_necrosis.webp)
+
 * **Pycnidia** : A pycnidia is a type of **asexual reproductive structure** found in fungi of the order *Sphaeropsidales* (class *Coelomycetes*) and *lichens* whose fungal component belongs to this order. The pycnidia is a spore-like concept of certain imperfect fungi (ascomycetes), usually globose or obpiriform in appearance (in the shape of a bottle or an inverted pear). Inside, very small asexual spores are formed, called *conidia* or *pycnidias*.
+
+![hand pycnidias](Report/hand_pycnidia.webp)
 
 The dataset is composed about **1600 images** and each leaf is composed of **4 portions** of leaves.
 
@@ -14,10 +21,10 @@ Original image :
 ![original](Report/Ber_Bob_2_Bob_2.jpg)
 
 Here is how we proceed our analysis : 
-- We determine all the leaves on the image (see `Crop`), which is necessary for our `result.csv` file.
-- We analyse all cropped leaves. On each leaf, we detect each `necrosis area`, which are necrotic areas of the leaf. Depending on the leaf, each necrosis may have a different color. To solve this problem, we use different `masks`. (See `Analysis`)
-- Then, we detect the pycnidias. The areas calculated previously are very useful, because they allow to **check** if a pycnidia is coherent: if a pycnidia belongs to a `necrotic area` then it is a **true pycnidia**. (See `Analysis`)
-- Finally, we create `result.csv` which is composed : 
+- We determine all the leaves on the image which is necessary for our *result.csv* file.
+- We analyse all cropped leaves. On each leaf, we detect each *necrosis area*, which are necrotic areas of the leaf. Depending on the leaf, each necrosis may have a different color. To solve this problem, we use different `masks`. (See [Analysis](#Analysis))
+- Then, we detect the pycnidias. The areas calculated previously are very useful, because they allow to **check** if a pycnidia is coherent: if a pycnidia belongs to a *necrotic area* then it is a **true pycnidia**. (See [Analysis](#Analysis))
+- Finally, we create *result.csv* which is composed : 
     * Columns from csv from PHD (columns containing researcher input data)
     * Name,
     * Leaf area in px and cm,
@@ -38,7 +45,7 @@ Arguments :
 
 ### Necrosis treatment
 
-Library used: `OpenCV`.
+Library used: [OpenCV](https://opencv.org/).
 
 Different `masks` are used to determine all the necroses on a leaf. 
 
@@ -89,7 +96,7 @@ for necrosis in leaf:
 
 ### Pycnidias 
 
-Library used: `Scipy`.
+Library used: [SciPy](https://scipy.org/).
 
 One of our problematic is to detect leaf pycnidias which are technically small black dots. However, colors of *small black spores* are differents according to leaf background. We can't solve this just by color. 
 
