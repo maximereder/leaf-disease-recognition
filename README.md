@@ -84,7 +84,9 @@ After having assembled all these masks, we apply these rules :
 for necrosis in leaf:
   if necrosis area > 1000px:
       ratio = round(perimeter/area, 3)
-      # Removing necroses with a marginal shape such as very elongated necroses
+      # Removing necroses with a marginal 
+      # shape such as 
+      # very elongated necroses
       if ratio < 0.25:
         # drawing necrosis
         i+=1
