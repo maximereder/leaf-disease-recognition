@@ -41,7 +41,7 @@ Arguments :
 - `directory`: main directory of analysis.
 - `img`: TIF file to analyze.
 - `dpi`: Number of pixels created on a one-inch area.
-- `save`: save all images (cropped and analysed). `True`or `False`. 
+- `save`: save all images (cropped and analysed). `True` or `False`. 
 
 ### Necrosis treatment
 
@@ -88,7 +88,7 @@ for necrosis in leaf:
       # with a marginal 
       # shape such as 
       # very elongated necroses
-      if ratio < 0.25:
+      if r < 0.25:
         # drawing necrosis
         i+=1
         necrosis_nb += 1
