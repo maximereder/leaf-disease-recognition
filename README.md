@@ -83,12 +83,10 @@ After having assembled all these masks, we apply these rules :
 ```py
 for necrosis in leaf:
   if necrosis area > 1000px:
-      r = round(perimeter/area, 3)
-      # Removing necroses 
-      # with a marginal 
-      # shape such as 
-      # very elongated necroses
-      if r < 0.25:
+      ratio = round(perimeter/area, 3)
+      # Removing necroses with a marginal shape 
+      # such as very elongated necroses
+      if ratio < 0.25:
         # drawing necrosis
         i+=1
         necrosis_nb += 1
@@ -116,11 +114,11 @@ Example :
 After detecting the suspected pycnidia, we sort them according to some rules : 
 ```py
 for pycnidias in leaf:
-  if pycnidia is in necresis area 
-      if pycnidia color in colors:
-        # drawing pycnidia
-        pycnidia_area += area
-        pycnidia_number += 1
+  if pycnidia is in necresis area: 
+    if pycnidia color belong to authorized colors:
+      # drawing pycnidia
+      pycnidia_area += area
+      pycnidia_number += 1
 ```
 
 ![With pycnidias](Report/pycnidias_drawn.webp)
