@@ -117,7 +117,7 @@ After detecting the suspected pycnidia, we sort them according to some rules :
 ```py
 for pycnidias in leaf:
   if pycnidia is in necresis area 
-      if pycnidia color belongs to autorized color:
+      if pycnidia color in colors:
         # drawing pycnidia
         pycnidia_area += area
         pycnidia_number += 1
