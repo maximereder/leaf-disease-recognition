@@ -45,55 +45,54 @@ Arguments :
 
 ### Necrosis treatment
 
-Library used: [OpenCV](https://opencv.org/).
+Library used: [Tensorflow](https://www.tensorflow.org/).
 
-Different `masks` are used to determine all the necroses on a leaf. 
+We annotate 300 images to solve this problem. 
 
-1. Green necrosis
-2. Green/Gray necrosis
-3. Yellow necrosis
+![img_vierge](Report/img_vierge.webp)
 
-Then, the final `mask` is the assembly of these: 
+![img_annotated](Report/img_annotated.webp)
 
-```mask_merged = mask_yellow_necrosis + mask_green_necrosis + mask_gray_necrosis```
 
-Example : 
+A simple U-Net model is used to recognize necroses on a leaf.
 
-Original
+```
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv1 (Conv2D)              (None, 292, 3062, 32)     7808      
+                                                                 
+ elu (ELU)                   (None, 292, 3062, 32)     0         
+                                                                 
+ Tconv2 (Conv2DTranspose)    (None, 300, 3070, 1)      2593      
+                                                                 
+=================================================================
+Total params: 10,401
+Trainable params: 10,401
+Non-trainable params: 0
+_________________________________________________________________
 
-![original](Report/original.webp)
-
-Green mask
-
-![Green Mask](Report/mask_green.webp)
-
-Green/Gray mask
-
-![Gray Mask](Report/mask_gray.webp)
-
-Yellow mask
-
-![Yellow Mask](Report/mask_yellow.webp)
-
-Final mask
-
-![Final Mask](Report/mask.webp)
-
-After having assembled all these masks, we apply these rules :
-```py
-for necrosis in leaf:
-  if necrosis area > 1000px:
-      ratio = round(perimeter/area, 3)
-      # Removing necroses with a marginal shape 
-      # such as very elongated necroses
-      if ratio < 0.25:
-        # drawing necrosis
-        i+=1
-        necrosis_nb += 1
-        necrosis_area += area
 ```
 
-![Final](Report/final.webp)
+The model will predict 'mask' that represent necrosis : 
+
+![img_vierge](Report/leaf_in.webp)
+
+After predicting the mask, we apply these rules :
+```py
+for cnt in cnts_necrosis_full:
+  area = cv2.contourArea(cnt)
+  if area > 300:
+    perimeter = cv2.arcLength(cnt, True)
+    ratio = round(perimeter / area, 3)
+    if ratio < 0.9:
+      cv2.drawContours(image, cnt, -1, (0, 255, 0), 2)
+      necrosis_area += area
+      necrosis_number+=1
+```
+
+![img_vierge](Report/leaf_out.webp)
 
 ### Pycnidias 
 
