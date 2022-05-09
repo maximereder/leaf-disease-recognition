@@ -56,7 +56,7 @@ We annotate 300 images to solve this problem.
 
 A simple U-Net model is used to recognize necroses on a leaf.
 
-```
+```py
 Model: "sequential"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
